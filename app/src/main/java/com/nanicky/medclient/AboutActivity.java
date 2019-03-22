@@ -1,4 +1,4 @@
-package com.honeyneutrons.undoswipe;
+package com.nanicky.medclient;
 
 import android.annotation.TargetApi;
 import android.content.Intent;

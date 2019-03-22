@@ -1,10 +1,11 @@
-package com.honeyneutrons.undoswipe;
+package com.nanicky.medclient;
 
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 
-import com.honeyneutrons.undoswipe.helper.SimpleItemTouchHelperCallback;
+import com.nanicky.medclient.helper.SimpleItemTouchHelperCallback;
 
 
 public class MainActivity extends AppCompatActivity implements ItemAdapter.OnStartDragListener{
@@ -140,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.OnSta
                 }
             }
         }
+
+        ViewPager viewPager;
     }
     private void loadItems()
     {

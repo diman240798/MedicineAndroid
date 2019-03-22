@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.honeyneutrons.undoswipe.helper;
+package com.nanicky.medclient.helper;
 
 import android.content.Context;
 

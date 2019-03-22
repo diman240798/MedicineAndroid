@@ -1,4 +1,4 @@
-package com.honeyneutrons.undoswipe;
+package com.nanicky.medclient;
 
 
 public class Item {

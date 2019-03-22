@@ -1,4 +1,4 @@
-package com.honeyneutrons.undoswipe;
+package com.nanicky.medclient;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.honeyneutrons.undoswipe.helper.ItemTouchHelperAdapter;
-import com.honeyneutrons.undoswipe.helper.ItemTouchHelperViewHolder;
+import com.nanicky.medclient.helper.ItemTouchHelperAdapter;
+import com.nanicky.medclient.helper.ItemTouchHelperViewHolder;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> implements ItemTouchHelperAdapter {
 

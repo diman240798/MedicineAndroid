@@ -1,4 +1,4 @@
-package com.honeyneutrons.undoswipe;
+package com.nanicky.medclient;
 
 import android.content.Context;
 import android.graphics.Typeface;
