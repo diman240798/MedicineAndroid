@@ -38,7 +38,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--<include layout="@layout/content_main" />-->
+    <!--<include layout="@layout/items_fragment" />-->
     <FrameLayout
         android:layout_marginTop="56dp"
         android:id="@+id/fragmentFrame"

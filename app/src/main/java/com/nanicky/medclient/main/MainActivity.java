@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.nanicky.medclient.R;
 import com.nanicky.medclient.about.AboutActivity;
 import com.nanicky.medclient.base.BaseActivity;
+import com.nanicky.medclient.main.fragment.GraphFragment;
 import com.nanicky.medclient.main.fragment.ItemsFragment;
 import com.nanicky.medclient.main.fragment.AddTaskFragment;
 import com.nanicky.medclient.main.mvp.MainPresenter;
@@ -25,6 +26,7 @@ public class MainActivity extends BaseActivity<MainPresenter> {
 
     private ItemsFragment itemsFragment;
     private Fragment currentFragment;
+    private GraphFragment graphFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,14 +81,14 @@ public class MainActivity extends BaseActivity<MainPresenter> {
                 if (tag == 1) {
                     fragment = itemsFragment;
                 } else if (tag == 2) {
-
+                    fragment = graphFragment;
                 } else if (tag == 3) {
 
                 }
 
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.fragmentFrame, fragment)
+                        .replace(R.id.fragmentFrame, fragment)
                         .commit();
             }
 
@@ -140,6 +142,7 @@ public class MainActivity extends BaseActivity<MainPresenter> {
             presenter = new MainPresenter();
         }
         itemsFragment = new ItemsFragment();
+        graphFragment = new GraphFragment();
         currentFragment = itemsFragment;
         presenter.setOnStartDragListener(itemsFragment);
         presenter.attachView(itemsFragment);
