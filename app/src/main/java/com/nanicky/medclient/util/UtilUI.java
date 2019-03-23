@@ -1,4 +1,4 @@
-package com.nanicky.medclient.util1;
+package com.nanicky.medclient.util;
 
 import android.content.res.Resources;
 

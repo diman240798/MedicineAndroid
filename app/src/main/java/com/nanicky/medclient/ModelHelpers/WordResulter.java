@@ -1,4 +1,4 @@
-package com.nanicky.medclient.util;
+package com.nanicky.medclient.ModelHelpers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ public class WordResulter {
         this.result = result;
     }
 
-    WordResult check(int index) {
+    public WordResult check(int index) {
         for(WordResult wr: words) {
             int start = wr.start;
             int end = wr.end;

@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import static com.nanicky.medclient.util1.UtilUI.dpToPx;
+import static com.nanicky.medclient.util.UtilUI.dpToPx;
 
 public class ItemsFragment extends Fragment implements OnStartDragListener, MainView {
 

@@ -1,4 +1,4 @@
-package com.nanicky.medclient.util;
+package com.nanicky.medclient.ModelHelpers;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;

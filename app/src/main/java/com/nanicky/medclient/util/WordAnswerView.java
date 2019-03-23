@@ -13,6 +13,9 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.nanicky.medclient.ModelHelpers.WordResult;
+import com.nanicky.medclient.ModelHelpers.WordResulter;
+
 import java.util.ArrayList;
 import java.util.List;
 
