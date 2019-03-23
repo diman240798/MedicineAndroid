@@ -11,4 +11,15 @@
     <color name="textlight">#546e7a</color>
     <color name="textlight30">#4d6b8d9c</color>
     <color name="border">#e7e7e7</color>
+
+    <color name="colorRed">#e41313</color>
+    <color name="colorWhite">#fff</color>
+    <color name="title">#010</color>
+    <color name="description">#222</color>
+    <color name="card_background">#faefc9</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorGreen">#006C6D</color>
+    <color name="colorGreenStatus">#005454</color>
+    <color name="titleColor">#4F4F4F</color>
+    <color name="colorBlue">#0b70ff</color>
 </resources>

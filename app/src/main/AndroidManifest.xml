@@ -8,7 +8,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.nanicky.medclient.main.MainActivity">
+        <activity
+            android:theme="@style/AppTheme.Launcher"
+            android:name="com.nanicky.medclient.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
