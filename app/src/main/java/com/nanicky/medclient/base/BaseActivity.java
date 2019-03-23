@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements BaseView {
 
-    protected P presenter;
+    public P presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

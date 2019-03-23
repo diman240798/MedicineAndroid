@@ -1,112 +1,60 @@
 package com.nanicky.medclient.main;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.function.Consumer;
 
-
-import com.nanicky.medclient.about.AboutActivity;
 import com.nanicky.medclient.R;
+import com.nanicky.medclient.about.AboutActivity;
 import com.nanicky.medclient.base.BaseActivity;
 import com.nanicky.medclient.helper.OnStartDragListener;
-import com.nanicky.medclient.helper.SimpleItemTouchHelperCallback;
+import com.nanicky.medclient.main.fragment.ItemsFragment;
 import com.nanicky.medclient.main.mvp.MainPresenter;
-import com.nanicky.medclient.main.mvp.MainView;
 
 
-public class MainActivity extends BaseActivity<MainPresenter> implements OnStartDragListener, MainView {
+public class MainActivity extends BaseActivity<MainPresenter> {
 
-    private ItemTouchHelper mItemTouchHelper;
-    private int nu=0;
-    TextView tvNumber;
-    private RecyclerView recyclerView;
+
+    private ItemsFragment itemsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         // Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // tabLoyout
         setTabs();
 
-        TextView tvDate=(TextView)findViewById(R.id.tvDate);
-        TextView tvDay=(TextView)findViewById(R.id.tvDay);
-        tvNumber=(TextView)findViewById(R.id.tvNumber);
-        setItemsCount(presenter.itemList.size());
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragmentFrame);
 
-        // Date
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat dateformat = new SimpleDateFormat("MM.dd.yyyy", Locale.getDefault());
-        assert tvDate!=null;
-        assert  tvDay!=null;
-        tvDate.setTypeface(Typefaces.getRobotoBlack(this));
-        tvDay.setTypeface(Typefaces.getRobotoBlack(this));
-        tvDate.setText( dateformat.format(c.getTime()).toUpperCase());
-
-        // recycler view
-        recyclerView = (RecyclerView) findViewById(R.id.cardList);
-        assert recyclerView != null;
-        recyclerView.setHasFixedSize(true);
-        final LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(llm);
-
-        // recycler adapter
-        final ItemAdapter itemAdapter = presenter.getItemAdapter();
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(itemAdapter,this);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(recyclerView);
-        recyclerView.setAdapter(itemAdapter);
-
-
-        // Fb
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        assert fab!=null;
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Item item = new Item();
-                nu= presenter.getItemsSize();
-                nu++;
-                item.setItemName("item"+nu);
-                llm.scrollToPositionWithOffset(0, dpToPx(56));
-                itemAdapter.addItem(0, item);
-            }
-        });
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragmentFrame, itemsFragment)
+                .commit();
     }
 
     private void setTabs() {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        assert tabLayout !=null;
-        tabLayout.addTab(tabLayout.newTab().setText("TAB1"));
-        tabLayout.addTab(tabLayout.newTab().setText("TAB2"));
-        tabLayout.addTab(tabLayout.newTab().setText("TAB3"));
+        assert tabLayout != null;
+        tabLayout.addTab(tabLayout.newTab().setText("Tasks").setTag(1));
+        tabLayout.addTab(tabLayout.newTab().setText("Graph").setTag(2));
+        tabLayout.addTab(tabLayout.newTab().setText("MedBot").setTag(3));
         //TabLayout font & size
         ViewGroup vg = (ViewGroup) tabLayout.getChildAt(0);
         int tabsCount = vg.getChildCount();
@@ -122,11 +70,41 @@ public class MainActivity extends BaseActivity<MainPresenter> implements OnStart
             }
         }
 
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int tag = (Integer) tab.getTag();
+                Fragment fragment = null;
+                if (tag == 1) {
+                    fragment = itemsFragment;
+                } else if (tag == 2) {
+
+                } else if (tag == 3) {
+
+                }
+
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fragmentFrame, fragment)
+                        .commit();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
 
     @Override
     public void onDestroy() {
-      super.onDestroy();
+        super.onDestroy();
         //presenter.clearList();
     }
 
@@ -155,67 +133,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements OnStart
     }
 
     @Override
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-        mItemTouchHelper.startDrag(viewHolder);
-    }
-
-    public static int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    @Override
     protected void attachPresenter() {
         presenter = (MainPresenter) getLastCustomNonConfigurationInstance();
         if (presenter == null) {
             presenter = new MainPresenter();
         }
-        presenter.setOnStartDragListener(this);
-        presenter.attachView(this);
+        itemsFragment = new ItemsFragment();
+        presenter.setOnStartDragListener(itemsFragment);
+        presenter.attachView(itemsFragment);
     }
 
-    @Override
-    public void setItemsCount(int count) {
-        tvNumber.setText(String.valueOf(count));
-    }
 
-    @Override
-    public void onItemDissmissed(int position, Item item) {
-        Context context = this;
-
-        tvNumber.setText(String.valueOf(presenter.itemList.size()));
-
-        final Snackbar snackbar =  Snackbar
-                .make(tvNumber,context.getResources().getString(R.string.item_deleted), Snackbar.LENGTH_LONG)
-                .setActionTextColor(ContextCompat.getColor(context, R.color.white))
-                .setAction(context.getResources().getString(R.string.item_undo), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        presenter.onAddItem(item, position);
-                        tvNumber.setText(String.valueOf(presenter.itemList.size()));
-
-                    }
-                });
-
-
-        View snackBarView = snackbar.getView();
-        snackBarView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent));
-        TextView tvSnack = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
-        TextView tvSnackAction = (TextView) snackbar.getView().findViewById( android.support.design.R.id.snackbar_action );
-        tvSnack.setTextColor(Color.WHITE);
-        tvSnack.setTypeface(Typefaces.getRobotoMedium(context));
-        tvSnackAction.setTypeface(Typefaces.getRobotoMedium(context));
-        snackbar.show();
-
-
-        Runnable runnableUndo = new Runnable() {
-
-            @Override
-            public void run() {
-                tvNumber.setText(String.valueOf(presenter.itemList.size()));
-                snackbar.dismiss();
-            }
-        };
-        Handler handlerUndo=new Handler();handlerUndo.postDelayed(runnableUndo,2500);
-
-    }
 }
