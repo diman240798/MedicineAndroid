@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,9 +35,10 @@ import static com.nanicky.medclient.util1.UtilUI.dpToPx;
 public class ItemsFragment extends Fragment implements OnStartDragListener, MainView {
 
     private ItemTouchHelper mItemTouchHelper;
-    private int nu=0;
     TextView tvNumber;
     private RecyclerView recyclerView;
+    private ItemAdapter itemAdapter;
+    private LinearLayoutManager llm;
 
     @Nullable
     @Override
@@ -78,12 +78,12 @@ public class ItemsFragment extends Fragment implements OnStartDragListener, Main
         recyclerView = (RecyclerView) view.findViewById(R.id.cardList);
         assert recyclerView != null;
         recyclerView.setHasFixedSize(true);
-        final LinearLayoutManager llm = new LinearLayoutManager(context);
+        llm = new LinearLayoutManager(context);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
 
         // recycler adapter
-        final ItemAdapter itemAdapter = activity.presenter.getItemAdapter();
+        itemAdapter = activity.presenter.getItemAdapter();
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(itemAdapter,context);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
@@ -96,16 +96,16 @@ public class ItemsFragment extends Fragment implements OnStartDragListener, Main
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Item item = new Item();
-                nu= activity.presenter.getItemsSize();
-                nu++;
-                item.setItemName("item"+nu);
-                llm.scrollToPositionWithOffset(0, dpToPx(56));
-                itemAdapter.addItem(0, item);
+                activity.openNewTaskFragment();
             }
         });
     }
+
+    public void onNewTaskAdded(Item item) {
+        llm.scrollToPositionWithOffset(0, dpToPx(56));
+        itemAdapter.addItem(0, item);
+    }
+
     @Override
     public void setItemsCount(int count) {
         tvNumber.setText(String.valueOf(count));

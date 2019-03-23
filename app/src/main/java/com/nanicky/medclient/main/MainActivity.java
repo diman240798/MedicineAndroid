@@ -1,7 +1,6 @@
 package com.nanicky.medclient.main;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,8 +15,8 @@ import android.widget.TextView;
 import com.nanicky.medclient.R;
 import com.nanicky.medclient.about.AboutActivity;
 import com.nanicky.medclient.base.BaseActivity;
-import com.nanicky.medclient.helper.OnStartDragListener;
 import com.nanicky.medclient.main.fragment.ItemsFragment;
+import com.nanicky.medclient.main.fragment.AddTaskFragment;
 import com.nanicky.medclient.main.mvp.MainPresenter;
 
 
@@ -25,6 +24,7 @@ public class MainActivity extends BaseActivity<MainPresenter> {
 
 
     private ItemsFragment itemsFragment;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,9 +140,36 @@ public class MainActivity extends BaseActivity<MainPresenter> {
             presenter = new MainPresenter();
         }
         itemsFragment = new ItemsFragment();
+        currentFragment = itemsFragment;
         presenter.setOnStartDragListener(itemsFragment);
         presenter.attachView(itemsFragment);
     }
 
+    private void setFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentFrame, fragment)
+                .commit();
+        currentFragment = fragment;
+    }
 
+    public void openNewTaskFragment() {
+        setFragment(new AddTaskFragment());
+    }
+
+    public void onAddNewTask(Item item) {
+        itemsFragment.onNewTaskAdded(item);
+    }
+
+    public void setItemsFragment() {
+        setFragment(itemsFragment);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (currentFragment instanceof AddTaskFragment)
+            setItemsFragment();
+        else
+            super.onBackPressed();
+    }
 }

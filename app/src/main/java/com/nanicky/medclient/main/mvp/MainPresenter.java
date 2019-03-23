@@ -1,18 +1,9 @@
 package com.nanicky.medclient.main.mvp;
 
-import android.graphics.Color;
-import android.os.Handler;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.widget.TextView;
-
-import com.nanicky.medclient.R;
 import com.nanicky.medclient.base.BasePresenter;
 import com.nanicky.medclient.helper.OnStartDragListener;
 import com.nanicky.medclient.main.Item;
 import com.nanicky.medclient.main.ItemAdapter;
-import com.nanicky.medclient.main.Typefaces;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,19 +17,19 @@ public class MainPresenter extends BasePresenter<MainView, MainModel> {
     public MainPresenter() {
         this.model = new MainModel(this);
         itemAdapter = new ItemAdapter(this);
-        loadItems();
+        //loadItems();
     }
 
 
-    private void loadItems() {
+    /*private void loadItems() {
         //Initial items
         for(int i=10;i>0;i--)
         {
             Item item = new Item();
-            item.setItemName("item"+i);
+            item.setName("item"+i);
             itemList.add(item);
         }
-    }
+    }*/
 
     @Override
     protected void restoreState() {
@@ -58,8 +49,7 @@ public class MainPresenter extends BasePresenter<MainView, MainModel> {
     }
 
     public void onItemDissmissed(int position) {
-        final Item item =new Item();
-        item.setItemName(itemList.get(position).getItemName());
+        final Item item = itemList.get(position);
 
         itemAdapter.notifyItemRemoved(position);
         itemList.remove(position);

@@ -46,7 +46,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
     public void onBindViewHolder(final ItemViewHolder itemViewHolder, final int position) {
 
         final Item item = mainPresenter.itemList.get(position);
-        itemViewHolder.tvItemName.setText(item.getItemName());
+        itemViewHolder.tvItemName.setText(item.getName());
         itemViewHolder.relativeReorder.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
