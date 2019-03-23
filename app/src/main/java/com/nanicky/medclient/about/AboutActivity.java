@@ -1,4 +1,4 @@
-package com.nanicky.medclient;
+package com.nanicky.medclient.about;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+
+import com.nanicky.medclient.R;
 
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)

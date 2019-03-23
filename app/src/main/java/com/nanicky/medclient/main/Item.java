@@ -1,4 +1,4 @@
-package com.nanicky.medclient;
+package com.nanicky.medclient.main;
 
 
 public class Item {
