@@ -65,6 +65,7 @@ public class TestFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         alert = new AlertDialog.Builder(getContext());
+        alertfinal = new AlertDialog.Builder(getContext());
         timerText = (TextView) view.findViewById(R.id.timer_test);
         FAB = (FloatingActionButton) view.findViewById(R.id.test_fab);
         text = (TextView) view.findViewById(R.id.containerView);
@@ -154,7 +155,7 @@ public class TestFragment extends Fragment {
         dialog.show();
 
         FAB.setOnClickListener(v -> {
-
+            finishDialog();
         });
 
 
@@ -170,16 +171,29 @@ public class TestFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                alertfinal.setTitle("Тестирование завершено")
-                        .setMessage("Ваш результат: "  + String.valueOf(genAttention()));
+                finishDialog();
             }
         };
         cTimer.start();
     }
 
     int genAttention(){
+        int attention = 0;
         Random random = new Random();
-        int attention = random.nextInt(100);
+        while (attention < 30) attention = random.nextInt(100);
         return attention;
+    }
+
+    void finishDialog(){
+        alertfinal.setTitle("Тестирование завершено")
+                .setMessage("Ваш результат: "  + String.valueOf(genAttention()))
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+        AlertDialog dialog = alertfinal.create();
+        dialog.show();
     }
 }
