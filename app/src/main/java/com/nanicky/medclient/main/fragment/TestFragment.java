@@ -2,18 +2,29 @@ package com.nanicky.medclient.main.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.text.Html;
+import android.text.Layout;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nanicky.medclient.ModelHelpers.TestGenerator;
+import com.nanicky.medclient.ModelHelpers.WordResult;
 import com.nanicky.medclient.ModelHelpers.WordResulter;
 import com.nanicky.medclient.R;
 import com.nanicky.medclient.util.WordAnswerView;
@@ -23,7 +34,7 @@ import java.util.Timer;
 
 public class TestFragment extends Fragment {
     private TextView timerText;
-    private LinearLayout container;
+    private TextView text;
     private FloatingActionButton FAB;
     private WordAnswerView wordAnswerView;
     private WordResulter wordResulter;
@@ -32,6 +43,11 @@ public class TestFragment extends Fragment {
     private int i;
     private AlertDialog.Builder alert;
     private AlertDialog.Builder alertfinal;
+    private float baseWidth = 1000;
+
+    private int counter;
+    String randomString = "fs43f352" + "алеьсин" + "gdswt" + "яблоко" + "4gv6buyf2" + "Котик" + "u39bci32k4btig7bajkeriw3";
+
 
     @Nullable
     @Override
@@ -51,10 +67,79 @@ public class TestFragment extends Fragment {
         alert = new AlertDialog.Builder(getContext());
         timerText = (TextView) view.findViewById(R.id.timer_test);
         FAB = (FloatingActionButton) view.findViewById(R.id.test_fab);
-        container = (LinearLayout) view.findViewById(R.id.containerView);
+        text = (TextView) view.findViewById(R.id.containerView);
         wordResulter = new TestGenerator().generateTest();
-        wordAnswerView = new WordAnswerView(getContext(), wordResulter.getResult() , 3, wordResulter);
-        container.addView(wordAnswerView);
+
+
+        String testText = wordResulter.getResult();
+
+        /*SpannableString spannableString = new SpannableString(testText);
+        spannableString.setSpan(clickableSpan, 0, testText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+*/
+        text.setText(testText);
+        text.setMovementMethod(LinkMovementMethod.getInstance());
+        text.setClickable(true);
+        text.setWidth(1000);
+
+        String apelsin = "<font color='red'>" + "апельсин" + "</font>";
+        String yabloko = "<font color='red'>" + "яблоко" + "</font>";
+        String kotik = "<font color='red'>" + "Котик" + "</font>";
+
+
+        text.setText(randomString);
+
+        text.setOnClickListener(v -> {
+            if (counter == 0) {
+                randomString = randomString.replace("алеьсин", apelsin);
+            } else if (counter == 1) {
+                randomString = randomString.replace("яблоко", yabloko);
+            } else {
+                randomString = randomString.replace("Котик", kotik);
+            }
+            text.setText(Html.fromHtml(randomString));
+            counter +=1;
+        });
+
+        /*text.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                Layout layout = ((TextView) v).getLayout();
+                int x = (int)event.getX();
+                int y = (int)event.getY();
+                if (layout!=null){
+                    int line = layout.getLineForVertical(y);
+                    int offset = layout.getOffsetForHorizontal(line, x);
+
+                }
+                return true;
+            }
+        });*/
+
+                /*setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int index = (int) (event.getX() / baseWidth);
+                // и устанавливаем границы выделения согласно описанным выше правилам
+                WordResult wordResult = wordResulter.check(index);
+                if (wordResult != null) {
+                    int start = wordResult.start;
+                    int end = wordResult.end;
+                    String s = text.getText().toString();
+                    String startSubstring = s.substring(0, start);
+
+                    String clr = s.substring(start, end);
+                    SpannableString spannableString = new SpannableString(clr);
+                    spannableString.setSpan(new BackgroundColorSpan(Color.YELLOW), 0, clr.length(), 0);
+
+                    String endSubstring= s.substring(end, s.length());
+
+                    text.setText(startSubstring + spannableString + endSubstring);
+                }
+                return true;
+            }
+        });*/
+
+        //wordAnswerView = new WordAnswerView(getContext(), wordResulter.getResult() , 12, wordResulter);
+        //text.addView(wordAnswerView);
         alert.setTitle("Инструкция")
                 .setMessage("Описание того как юзать таймер")
                 .setPositiveButton("Начать тест", new DialogInterface.OnClickListener() {
