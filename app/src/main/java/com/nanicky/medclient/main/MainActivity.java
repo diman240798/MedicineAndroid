@@ -18,6 +18,7 @@ import com.nanicky.medclient.base.BaseActivity;
 import com.nanicky.medclient.main.fragment.GraphFragment;
 import com.nanicky.medclient.main.fragment.ItemsFragment;
 import com.nanicky.medclient.main.fragment.AddTaskFragment;
+import com.nanicky.medclient.main.fragment.TestFragment;
 import com.nanicky.medclient.main.mvp.MainPresenter;
 
 
@@ -25,6 +26,7 @@ public class MainActivity extends BaseActivity<MainPresenter> {
 
 
     private ItemsFragment itemsFragment;
+    private TestFragment testFragment;
     private Fragment currentFragment;
     private GraphFragment graphFragment;
 
@@ -143,6 +145,7 @@ public class MainActivity extends BaseActivity<MainPresenter> {
         }
         itemsFragment = new ItemsFragment();
         graphFragment = new GraphFragment();
+        testFragment = new TestFragment();
         currentFragment = itemsFragment;
         presenter.setOnStartDragListener(itemsFragment);
         presenter.attachView(itemsFragment);
@@ -157,7 +160,7 @@ public class MainActivity extends BaseActivity<MainPresenter> {
     }
 
     public void openNewTaskFragment() {
-        setFragment(new AddTaskFragment());
+        setFragment(new TestFragment());
     }
 
     public void onAddNewTask(Item item) {

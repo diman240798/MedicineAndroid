@@ -10,7 +10,7 @@ public class TestGenerator {
     private static String AB = "0123456789Аыаофщшпоукфкпжщзуофкзщпкофщузжопкзщжфущокзщж";
     private static SecureRandom rnd = new SecureRandom();
 
-    WordResulter generateTest() {
+    public WordResulter generateTest() {
         List<WordResult> wordResults = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 

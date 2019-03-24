@@ -12,6 +12,10 @@ public class WordResulter {
         this.result = result;
     }
 
+    public String getResult() {
+        return result;
+    }
+
     public WordResult check(int index) {
         for(WordResult wr: words) {
             int start = wr.start;
