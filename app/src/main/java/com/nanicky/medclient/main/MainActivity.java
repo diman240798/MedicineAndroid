@@ -18,6 +18,7 @@ import com.nanicky.medclient.base.BaseActivity;
 import com.nanicky.medclient.main.fragment.GraphFragment;
 import com.nanicky.medclient.main.fragment.ItemsFragment;
 import com.nanicky.medclient.main.fragment.AddTaskFragment;
+import com.nanicky.medclient.main.fragment.TestFragment;
 import com.nanicky.medclient.main.mvp.MainPresenter;
 
 import java.util.Objects;
@@ -29,6 +30,7 @@ public class MainActivity extends BaseActivity<MainPresenter> {
     private ItemsFragment itemsFragment;
     private Fragment currentFragment;
     private GraphFragment graphFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +54,8 @@ public class MainActivity extends BaseActivity<MainPresenter> {
         } else if (fragmentNumber == 2) {
             fragment = graphFragment;
         } else if (fragmentNumber == 3) {
-            AddTaskFragment addTaskFragment = new AddTaskFragment();
-            fragment = addTaskFragment;
+            TestFragment testFragment = new TestFragment();
+            fragment = testFragment;
 
         }
 
@@ -101,9 +103,8 @@ public class MainActivity extends BaseActivity<MainPresenter> {
                     fragment = graphFragment;
                     fragmentNumber = graphFragment.fragmentNumber;
                 } else if (tag == 3) {
-                    AddTaskFragment addTaskFragment = new AddTaskFragment();
-                    fragment = addTaskFragment;
-                    fragmentNumber = addTaskFragment.fragmentNumber;
+                    TestFragment testFragment = new TestFragment();
+                    fragment = testFragment;
                 }
 
                 setFragment(fragment, fragmentNumber);
