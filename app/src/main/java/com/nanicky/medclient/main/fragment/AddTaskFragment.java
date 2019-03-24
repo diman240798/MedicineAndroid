@@ -16,6 +16,7 @@ import com.nanicky.medclient.main.Item;
 import com.nanicky.medclient.main.MainActivity;
 
 public class AddTaskFragment extends Fragment {
+    public int fragmentNumber = 3;
     private TextInputEditText txtName;
     private TextInputEditText txtDescription;
     private TextView txtProc;
@@ -65,11 +66,41 @@ public class AddTaskFragment extends Fragment {
             int attentionLevel = seekBar.getProgress();
             Item item = new Item(name, description, attentionLevel);
             MainActivity activity = (MainActivity) getActivity();
+            assert activity != null;
             activity.setItemsFragment();
             v.postDelayed(() -> {
                 activity.onAddNewTask(item);
             }, 800);
 
         });
+
+        MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+        Item restoreItem = activity.presenter.restoreItem;
+
+        if (restoreItem != null) {
+            String name = restoreItem.getName();
+            String description = restoreItem.getDescription();
+            int progress = restoreItem.getProgress();
+
+            txtName.setText(name);
+            txtDescription.setText(description);
+            seekBar.setProgress(progress);
+        }
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        String name = txtName.getText().toString();
+        String description = txtName.getText().toString();
+        int attentionLevel = seekBar.getProgress();
+        Item restoreItem = new Item(name, description, attentionLevel);
+
+        MainActivity activity = (MainActivity) getActivity();
+        assert activity != null;
+        activity.presenter.restoreItem = restoreItem;
     }
 }

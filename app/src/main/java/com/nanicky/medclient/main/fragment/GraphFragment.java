@@ -13,6 +13,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.nanicky.medclient.R;
 
 public class GraphFragment extends Fragment {
+    public int fragmentNumber = 2;
     private GraphView graph;
 
     @Nullable

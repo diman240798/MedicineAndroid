@@ -20,6 +20,8 @@ import com.nanicky.medclient.main.fragment.ItemsFragment;
 import com.nanicky.medclient.main.fragment.AddTaskFragment;
 import com.nanicky.medclient.main.mvp.MainPresenter;
 
+import java.util.Objects;
+
 
 public class MainActivity extends BaseActivity<MainPresenter> {
 
@@ -43,12 +45,20 @@ public class MainActivity extends BaseActivity<MainPresenter> {
         // tabLoyout
         setTabs();
 
-        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragmentFrame);
+        int fragmentNumber = presenter.fragmentNumber;
+        Fragment fragment = null;
+        if (fragmentNumber == 1) {
+            fragment = itemsFragment;
+        } else if (fragmentNumber == 2) {
+            fragment = graphFragment;
+        } else if (fragmentNumber == 3) {
+            AddTaskFragment addTaskFragment = new AddTaskFragment();
+            fragment = addTaskFragment;
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragmentFrame, itemsFragment)
-                .commit();
+        }
+
+        setFragment(fragment, fragmentNumber);
+
     }
 
     private void setTabs() {
@@ -76,20 +86,27 @@ public class MainActivity extends BaseActivity<MainPresenter> {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int tag = (Integer) tab.getTag();
-                Fragment fragment = null;
-                if (tag == 1) {
-                    fragment = itemsFragment;
-                } else if (tag == 2) {
-                    fragment = graphFragment;
-                } else if (tag == 3) {
-
+                if (currentFragment instanceof AddTaskFragment) {
+                    Objects.requireNonNull(tabLayout.getTabAt(0)).select();
+                    return;
                 }
 
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragmentFrame, fragment)
-                        .commit();
+                int tag = (Integer) tab.getTag();
+                Fragment fragment = null;
+                int fragmentNumber = 1;
+                if (tag == 1) {
+                    fragment = itemsFragment;
+                    fragmentNumber = itemsFragment.fragmentNumber;
+                } else if (tag == 2) {
+                    fragment = graphFragment;
+                    fragmentNumber = graphFragment.fragmentNumber;
+                } else if (tag == 3) {
+                    AddTaskFragment addTaskFragment = new AddTaskFragment();
+                    fragment = addTaskFragment;
+                    fragmentNumber = addTaskFragment.fragmentNumber;
+                }
+
+                setFragment(fragment, fragmentNumber);
             }
 
             @Override
@@ -148,16 +165,19 @@ public class MainActivity extends BaseActivity<MainPresenter> {
         presenter.attachView(itemsFragment);
     }
 
-    private void setFragment(Fragment fragment) {
+    private void setFragment(Fragment fragment, int fragmentNumber) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentFrame, fragment)
                 .commit();
         currentFragment = fragment;
+        presenter.fragmentNumber = fragmentNumber;
     }
 
     public void openNewTaskFragment() {
-        setFragment(new AddTaskFragment());
+        AddTaskFragment fragment = new AddTaskFragment();
+        int fragmentNumber = fragment.fragmentNumber;
+        setFragment(fragment, fragmentNumber);
     }
 
     public void onAddNewTask(Item item) {
@@ -165,7 +185,7 @@ public class MainActivity extends BaseActivity<MainPresenter> {
     }
 
     public void setItemsFragment() {
-        setFragment(itemsFragment);
+        setFragment(itemsFragment, itemsFragment.fragmentNumber);
     }
 
     @Override

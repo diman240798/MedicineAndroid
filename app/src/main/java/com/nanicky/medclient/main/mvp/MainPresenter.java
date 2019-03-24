@@ -13,6 +13,9 @@ public class MainPresenter extends BasePresenter<MainView, MainModel> {
 
     public final ItemAdapter itemAdapter;
     public List<Item> itemList = new ArrayList<>();
+    public int fragmentNumber = 1;
+    public Item restoreItem;
+
 
     public MainPresenter() {
         this.model = new MainModel(this);
