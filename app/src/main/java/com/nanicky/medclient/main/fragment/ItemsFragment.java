@@ -34,6 +34,7 @@ import static com.nanicky.medclient.util.UtilUI.dpToPx;
 
 public class ItemsFragment extends Fragment implements OnStartDragListener, MainView {
 
+    public int fragmentNumber = 1;
     private ItemTouchHelper mItemTouchHelper;
     TextView tvNumber;
     private RecyclerView recyclerView;
