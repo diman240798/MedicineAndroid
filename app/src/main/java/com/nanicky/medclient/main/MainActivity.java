@@ -171,12 +171,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
         tasksFragment = new TasksFragment();
         graphFragment = new GraphFragment();
+        testFragment = new TestFragment();
+
         currentFragment = tasksFragment;
-        presenter.getTaskPresenter().attachView(tasksFragment);
+
+        presenter.attachView(this);
         presenter.getTaskPresenter().attachView(tasksFragment);
         presenter.getGraphPresenter().attachView(graphFragment);
         presenter.getTaskPresenter().setOnStartDragListener(tasksFragment);
-        presenter.attachView(this);
+        presenter.getTestPresenter().attachView(testFragment);
+
     }
 
     private void setFragment(Fragment fragment, int fragmentNumber) {

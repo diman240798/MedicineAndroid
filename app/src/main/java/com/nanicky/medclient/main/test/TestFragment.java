@@ -32,7 +32,7 @@ import com.nanicky.medclient.util.WordAnswerView;
 import java.util.Random;
 import java.util.Timer;
 
-public class TestFragment extends Fragment {
+public class TestFragment extends Fragment implements TestView {
     private TextView timerText;
     private TextView text;
     private FloatingActionButton FAB;
@@ -192,5 +192,10 @@ public class TestFragment extends Fragment {
                 });
         AlertDialog dialog = alertfinal.create();
         dialog.show();
+    }
+
+    @Override
+    public int getPresenterId() {
+        return 4;
     }
 }
