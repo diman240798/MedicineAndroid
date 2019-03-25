@@ -117,6 +117,6 @@ public class AddTaskFragment extends Fragment implements AddTaskView {
 
     @Override
     public int getPresenterId() {
-        return 2;
+        return 4;
     }
 }

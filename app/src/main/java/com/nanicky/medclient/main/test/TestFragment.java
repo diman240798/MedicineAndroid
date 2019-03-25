@@ -196,6 +196,6 @@ public class TestFragment extends Fragment implements TestView {
 
     @Override
     public int getPresenterId() {
-        return 4;
+        return 3;
     }
 }

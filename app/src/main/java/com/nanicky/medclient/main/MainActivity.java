@@ -37,6 +37,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     public TestFragment testFragment;
     public TasksFragment taskFragment;
     public GraphFragment graphFragment;
+    public AddTaskFragment addTaskFragment;
+    private TabLayout tabLayout;
 
 
     @Override
@@ -55,16 +57,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         setTabs();
 
         int fragmentNumber = presenter.currentFragmentNumber;
+        Objects.requireNonNull(tabLayout.getTabAt(fragmentNumber - 1)).select();
         Fragment fragment = null;
+
         if (fragmentNumber == 1) {
             fragment = taskFragment;
         } else if (fragmentNumber == 2) {
-            fragment = new AddTaskFragment(); // FIXME: FIXXXXXXX
-        } else if (fragmentNumber == 3) {
             fragment = graphFragment;
-        } else if (fragmentNumber == 4) {
+        } else if (fragmentNumber == 3) {
             TestFragment testFragment = new TestFragment();
-            fragment = testFragment;
+            fragment = testFragment; // FIXME /////////////
+        } else if (fragmentNumber == 4) {
+            fragment = addTaskFragment;
         } else {
             throw new RuntimeException("NOT IMPLEMENTED FOR: " + fragmentNumber);
         }
@@ -75,7 +79,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     private void setTabs() {
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         assert tabLayout != null;
         tabLayout.addTab(tabLayout.newTab().setText("Tasks").setTag(1));
         tabLayout.addTab(tabLayout.newTab().setText("Graph").setTag(2));
@@ -115,6 +119,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                 } else if (tag == 3) {
                     TestFragment testFragment = new TestFragment();
                     fragment = testFragment;
+                    fragmentNumber = testFragment.getPresenterId();
                 }
 
                 setFragment(fragment, fragmentNumber);
@@ -174,6 +179,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         taskFragment = new TasksFragment();
         graphFragment = new GraphFragment();
         testFragment = new TestFragment();
+        addTaskFragment = new AddTaskFragment();
 
         currentFragment = taskFragment;
 

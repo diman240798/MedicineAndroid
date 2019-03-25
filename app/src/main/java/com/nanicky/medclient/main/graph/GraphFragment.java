@@ -43,6 +43,6 @@ public class GraphFragment extends Fragment implements com.nanicky.medclient.mai
 
     @Override
     public int getPresenterId() {
-        return  3;
+        return  2;
     }
 }
