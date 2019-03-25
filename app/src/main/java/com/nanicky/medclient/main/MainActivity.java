@@ -9,25 +9,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.nanicky.medclient.R;
 import com.nanicky.medclient.about.AboutActivity;
 import com.nanicky.medclient.base.BaseActivity;
-import com.nanicky.medclient.main.fragment.GraphFragment;
-import com.nanicky.medclient.main.fragment.ItemsFragment;
-import com.nanicky.medclient.main.fragment.AddTaskFragment;
-import com.nanicky.medclient.main.fragment.TestFragment;
-import com.nanicky.medclient.main.mvp.MainPresenter;
+import com.nanicky.medclient.main.graph.GraphFragment;
+import com.nanicky.medclient.main.tasks.TasksFragment;
+import com.nanicky.medclient.main.addTask.AddTaskFragment;
+import com.nanicky.medclient.main.test.TestFragment;
+import com.nanicky.medclient.main.tasks.TaskPresenter;
 
 import java.util.Objects;
 
 
-public class MainActivity extends BaseActivity<MainPresenter> {
+public class MainActivity extends BaseActivity<TaskPresenter> {
 
 
-    private ItemsFragment itemsFragment;
+    private TasksFragment tasksFragment;
     private Fragment currentFragment;
     private GraphFragment graphFragment;
 
@@ -50,7 +49,7 @@ public class MainActivity extends BaseActivity<MainPresenter> {
         int fragmentNumber = presenter.fragmentNumber;
         Fragment fragment = null;
         if (fragmentNumber == 1) {
-            fragment = itemsFragment;
+            fragment = tasksFragment;
         } else if (fragmentNumber == 2) {
             fragment = graphFragment;
         } else if (fragmentNumber == 3) {
@@ -97,8 +96,8 @@ public class MainActivity extends BaseActivity<MainPresenter> {
                 Fragment fragment = null;
                 int fragmentNumber = 1;
                 if (tag == 1) {
-                    fragment = itemsFragment;
-                    fragmentNumber = itemsFragment.fragmentNumber;
+                    fragment = tasksFragment;
+                    fragmentNumber = tasksFragment.fragmentNumber;
                 } else if (tag == 2) {
                     fragment = graphFragment;
                     fragmentNumber = graphFragment.fragmentNumber;
@@ -155,15 +154,15 @@ public class MainActivity extends BaseActivity<MainPresenter> {
 
     @Override
     protected void attachPresenter() {
-        presenter = (MainPresenter) getLastCustomNonConfigurationInstance();
+        presenter = (TaskPresenter) getLastCustomNonConfigurationInstance();
         if (presenter == null) {
-            presenter = new MainPresenter();
+            presenter = new TaskPresenter();
         }
-        itemsFragment = new ItemsFragment();
+        tasksFragment = new TasksFragment();
         graphFragment = new GraphFragment();
-        currentFragment = itemsFragment;
-        presenter.setOnStartDragListener(itemsFragment);
-        presenter.attachView(itemsFragment);
+        currentFragment = tasksFragment;
+        presenter.setOnStartDragListener(tasksFragment);
+        presenter.attachView(tasksFragment);
     }
 
     private void setFragment(Fragment fragment, int fragmentNumber) {
@@ -182,11 +181,11 @@ public class MainActivity extends BaseActivity<MainPresenter> {
     }
 
     public void onAddNewTask(Item item) {
-        itemsFragment.onNewTaskAdded(item);
+        tasksFragment.onNewTaskAdded(item);
     }
 
     public void setItemsFragment() {
-        setFragment(itemsFragment, itemsFragment.fragmentNumber);
+        setFragment(tasksFragment, tasksFragment.fragmentNumber);
     }
 
     @Override

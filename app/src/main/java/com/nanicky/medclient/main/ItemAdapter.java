@@ -10,42 +10,42 @@ import android.view.ViewGroup;
 import com.nanicky.medclient.R;
 import com.nanicky.medclient.helper.ItemTouchHelperAdapter;
 import com.nanicky.medclient.helper.OnStartDragListener;
-import com.nanicky.medclient.main.mvp.MainPresenter;
+import com.nanicky.medclient.main.tasks.TaskPresenter;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements ItemTouchHelperAdapter {
 
-    MainPresenter mainPresenter;
+    TaskPresenter taskPresenter;
 
     private OnStartDragListener dragStartListener;
 
-    public ItemAdapter(MainPresenter mainPresenter) {
-        this.mainPresenter = mainPresenter;
+    public ItemAdapter(TaskPresenter taskPresenter) {
+        this.taskPresenter = taskPresenter;
 
     }
 
     @Override
     public void onItemDismiss(final int position) {
-        mainPresenter.onItemDissmissed(position);
+        taskPresenter.onItemDissmissed(position);
     }
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        mainPresenter.changeItems(fromPosition, toPosition);
+        taskPresenter.changeItems(fromPosition, toPosition);
     }
 
     public void addItem(int position, Item item) {
-        mainPresenter.onAddItem(item, position);
+        taskPresenter.onAddItem(item, position);
     }
 
     @Override
     public int getItemCount() {
-        return mainPresenter.itemList.size();
+        return taskPresenter.itemList.size();
     }
 
     @Override
     public void onBindViewHolder(final ItemViewHolder itemViewHolder, final int position) {
 
-        final Item item = mainPresenter.itemList.get(position);
+        final Item item = taskPresenter.itemList.get(position);
         itemViewHolder.tvItemName.setText(item.getName());
         itemViewHolder.relativeReorder.setOnTouchListener(new View.OnTouchListener() {
             @Override
