@@ -12,8 +12,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.nanicky.medclient.R;
 
-public class GraphFragment extends Fragment {
-    public int fragmentNumber = 2;
+public class GraphFragment extends Fragment implements com.nanicky.medclient.main.graph.GraphView {
     private GraphView graph;
 
     @Nullable
@@ -40,5 +39,10 @@ public class GraphFragment extends Fragment {
                 new DataPoint(4, 6)
         });
         graph.addSeries(series);
+    }
+
+    @Override
+    public int getPresenterId() {
+        return  3;
     }
 }

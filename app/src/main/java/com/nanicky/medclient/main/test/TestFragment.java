@@ -38,12 +38,9 @@ public class TestFragment extends Fragment {
     private FloatingActionButton FAB;
     private WordAnswerView wordAnswerView;
     private WordResulter wordResulter;
-    private Timer timer;
     private CountDownTimer cTimer;
-    private int i;
     private AlertDialog.Builder alert;
     private AlertDialog.Builder alertfinal;
-    private float baseWidth = 1000;
 
     private int counter;
     String randomString = "fs43f352" + "алеьсин" + "gdswt" + "яблоко" + "4gv6buyf2" + "Котик" + "u39bci32k4btig7bajkeriw3";

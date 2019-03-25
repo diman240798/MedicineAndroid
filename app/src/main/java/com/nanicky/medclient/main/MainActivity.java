@@ -14,20 +14,28 @@ import android.widget.TextView;
 import com.nanicky.medclient.R;
 import com.nanicky.medclient.about.AboutActivity;
 import com.nanicky.medclient.base.BaseActivity;
+import com.nanicky.medclient.base.BasePresenter;
+import com.nanicky.medclient.base.BaseView;
+import com.nanicky.medclient.main.addTask.AddTaskPresenter;
 import com.nanicky.medclient.main.graph.GraphFragment;
-import com.nanicky.medclient.main.tasks.TasksFragment;
+import com.nanicky.medclient.main.graph.GraphPresenter;
+import com.nanicky.medclient.main.mvp.MainPresenter;
+import com.nanicky.medclient.main.mvp.MainView;
+import com.nanicky.medclient.main.task.TaskPresenter;
+import com.nanicky.medclient.main.task.TasksFragment;
 import com.nanicky.medclient.main.addTask.AddTaskFragment;
 import com.nanicky.medclient.main.test.TestFragment;
-import com.nanicky.medclient.main.tasks.TaskPresenter;
+import com.nanicky.medclient.main.test.TestPresenter;
 
 import java.util.Objects;
 
 
-public class MainActivity extends BaseActivity<TaskPresenter> {
+public class MainActivity extends BaseActivity<MainPresenter> implements MainView {
 
 
-    private TasksFragment tasksFragment;
     private Fragment currentFragment;
+    private TestFragment testFragment;
+    private TasksFragment tasksFragment;
     private GraphFragment graphFragment;
 
 
@@ -46,7 +54,7 @@ public class MainActivity extends BaseActivity<TaskPresenter> {
         // tabLoyout
         setTabs();
 
-        int fragmentNumber = presenter.fragmentNumber;
+        int fragmentNumber = presenter.currentFragmentNumber;
         Fragment fragment = null;
         if (fragmentNumber == 1) {
             fragment = tasksFragment;
@@ -55,7 +63,8 @@ public class MainActivity extends BaseActivity<TaskPresenter> {
         } else if (fragmentNumber == 3) {
             TestFragment testFragment = new TestFragment();
             fragment = testFragment;
-
+        } else {
+            throw new RuntimeException("NOT IMPLEMENTED FOR: " + fragmentNumber);
         }
 
         setFragment(fragment, fragmentNumber);
@@ -97,10 +106,10 @@ public class MainActivity extends BaseActivity<TaskPresenter> {
                 int fragmentNumber = 1;
                 if (tag == 1) {
                     fragment = tasksFragment;
-                    fragmentNumber = tasksFragment.fragmentNumber;
+                    fragmentNumber = tasksFragment.getPresenterId();
                 } else if (tag == 2) {
                     fragment = graphFragment;
-                    fragmentNumber = graphFragment.fragmentNumber;
+                    fragmentNumber = graphFragment.getPresenterId();
                 } else if (tag == 3) {
                     TestFragment testFragment = new TestFragment();
                     fragment = testFragment;
@@ -154,15 +163,20 @@ public class MainActivity extends BaseActivity<TaskPresenter> {
 
     @Override
     protected void attachPresenter() {
-        presenter = (TaskPresenter) getLastCustomNonConfigurationInstance();
+        presenter = (MainPresenter) getLastCustomNonConfigurationInstance();
+
         if (presenter == null) {
-            presenter = new TaskPresenter();
+            presenter = new MainPresenter(new TaskPresenter(), new GraphPresenter(), new AddTaskPresenter(), new TestPresenter());
         }
+
         tasksFragment = new TasksFragment();
         graphFragment = new GraphFragment();
         currentFragment = tasksFragment;
-        presenter.setOnStartDragListener(tasksFragment);
-        presenter.attachView(tasksFragment);
+        presenter.getTaskPresenter().attachView(tasksFragment);
+        presenter.getTaskPresenter().attachView(tasksFragment);
+        presenter.getGraphPresenter().attachView(graphFragment);
+        presenter.getTaskPresenter().setOnStartDragListener(tasksFragment);
+        presenter.attachView(this);
     }
 
     private void setFragment(Fragment fragment, int fragmentNumber) {
@@ -171,13 +185,13 @@ public class MainActivity extends BaseActivity<TaskPresenter> {
                 .replace(R.id.fragmentFrame, fragment)
                 .commit();
         currentFragment = fragment;
-        presenter.fragmentNumber = fragmentNumber;
+        presenter.currentFragmentNumber = fragmentNumber;
     }
 
     public void openNewTaskFragment() {
         AddTaskFragment fragment = new AddTaskFragment();
-        int fragmentNumber = fragment.fragmentNumber;
-        setFragment(fragment, fragmentNumber);
+        int presenterId = fragment.getPresenterId();
+        setFragment(fragment, presenterId);
     }
 
     public void onAddNewTask(Item item) {
@@ -185,7 +199,7 @@ public class MainActivity extends BaseActivity<TaskPresenter> {
     }
 
     public void setItemsFragment() {
-        setFragment(tasksFragment, tasksFragment.fragmentNumber);
+        setFragment(tasksFragment, tasksFragment.getPresenterId());
     }
 
     @Override
@@ -194,5 +208,27 @@ public class MainActivity extends BaseActivity<TaskPresenter> {
             setItemsFragment();
         else
             super.onBackPressed();
+    }
+
+    public BasePresenter getPresenter(BaseView view) {
+        int id = view.getPresenterId();
+        BasePresenter basePresenter = null;
+        if ( id == 1) {
+            basePresenter = presenter.getTaskPresenter();
+        } else if (id == 2) {
+            basePresenter = presenter.getAddAaskPresenter();
+        } else if (id == 3) {
+            basePresenter = presenter.getGraphPresenter();
+        } else if (id == 4) {
+            basePresenter = presenter.getTestPresenter();
+        } else {
+            throw new RuntimeException("Not Implemented");
+        }
+        return basePresenter;
+    }
+
+    @Override
+    public int getPresenterId() {
+        return 0;
     }
 }

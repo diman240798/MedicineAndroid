@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.nanicky.medclient.R;
 import com.nanicky.medclient.helper.ItemTouchHelperAdapter;
 import com.nanicky.medclient.helper.OnStartDragListener;
-import com.nanicky.medclient.main.tasks.TaskPresenter;
+import com.nanicky.medclient.main.task.TaskPresenter;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements ItemTouchHelperAdapter {
 

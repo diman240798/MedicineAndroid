@@ -1,4 +1,4 @@
-package com.nanicky.medclient.main.tasks;
+package com.nanicky.medclient.main.task;
 
 import com.nanicky.medclient.base.BaseModel;
 import com.nanicky.medclient.base.BasePresenter;

@@ -1,4 +1,4 @@
-package com.nanicky.medclient.main.tasks;
+package com.nanicky.medclient.main.task;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -33,7 +33,6 @@ import static com.nanicky.medclient.util.UtilUI.dpToPx;
 
 public class TasksFragment extends Fragment implements OnStartDragListener, TaskView {
 
-    public int fragmentNumber = 1;
     private ItemTouchHelper mItemTouchHelper;
     TextView tvNumber;
     private RecyclerView recyclerView;
@@ -58,12 +57,13 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
 
         Context context = getContext();
         MainActivity activity = (MainActivity) getActivity();
+        TaskPresenter presenter = (TaskPresenter) activity.getPresenter(this);
 
         // Date
         TextView tvDate=(TextView)view.findViewById(R.id.tvDate);
         TextView tvDay=(TextView)view.findViewById(R.id.tvDay);
         tvNumber=(TextView)view.findViewById(R.id.tvNumber);
-        setItemsCount(activity.presenter.itemList.size());
+        setItemsCount(presenter.itemList.size());
 
         // Date
         Calendar c = Calendar.getInstance();
@@ -83,7 +83,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         recyclerView.setLayoutManager(llm);
 
         // recycler adapter
-        itemAdapter = activity.presenter.getItemAdapter();
+        itemAdapter = presenter.getItemAdapter();
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(itemAdapter,context);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
@@ -116,7 +116,9 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         Context context = getContext();
         MainActivity activity = (MainActivity) getActivity();
 
-        tvNumber.setText(String.valueOf(activity.presenter.itemList.size()));
+        TaskPresenter presenter = (TaskPresenter) activity.getPresenter(this);
+        int size = presenter.itemList.size();
+        tvNumber.setText(String.valueOf(size));
 
         final Snackbar snackbar =  Snackbar
                 .make(tvNumber,context.getResources().getString(R.string.item_deleted), Snackbar.LENGTH_LONG)
@@ -124,8 +126,8 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
                 .setAction(context.getResources().getString(R.string.item_undo), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        activity.presenter.onAddItem(item, position);
-                        tvNumber.setText(String.valueOf(activity.presenter.itemList.size()));
+                        presenter.onAddItem(item, position);
+                        tvNumber.setText(String.valueOf(presenter.itemList.size()));
 
                     }
                 });
@@ -140,12 +142,11 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         tvSnackAction.setTypeface(Typefaces.getRobotoMedium(context));
         snackbar.show();
 
-
         Runnable runnableUndo = new Runnable() {
 
             @Override
             public void run() {
-                tvNumber.setText(String.valueOf(activity.presenter.itemList.size()));
+                tvNumber.setText(String.valueOf(presenter.itemList.size()));
                 snackbar.dismiss();
             }
         };
@@ -156,5 +157,10 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
+    }
+
+    @Override
+    public int getPresenterId() {
+        return 1;
     }
 }

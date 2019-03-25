@@ -16,7 +16,6 @@ import com.nanicky.medclient.main.Item;
 import com.nanicky.medclient.main.MainActivity;
 
 public class AddTaskFragment extends Fragment implements AddTaskView {
-    public int fragmentNumber = 3;
     private TextInputEditText txtName;
     private TextInputEditText txtDescription;
     private TextView txtProc;
@@ -76,9 +75,10 @@ public class AddTaskFragment extends Fragment implements AddTaskView {
 
         MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
-        Item restoreItem = activity.presenter.restoreItem;
+        Item restoreItem = ((AddTaskPresenter)activity.getPresenter(this)).restoreItem;
 
         if (restoreItem != null) {
+            ((AddTaskPresenter)activity.getPresenter(this)).restoreItem = null;
             String name = restoreItem.getName();
             String description = restoreItem.getDescription();
             int progress = restoreItem.getProgress();
@@ -101,6 +101,11 @@ public class AddTaskFragment extends Fragment implements AddTaskView {
 
         MainActivity activity = (MainActivity) getActivity();
         assert activity != null;
-        activity.presenter.restoreItem = restoreItem;
+        ((AddTaskPresenter)activity.getPresenter(this)).restoreItem = restoreItem;
+    }
+
+    @Override
+    public int getPresenterId() {
+        return 2;
     }
 }

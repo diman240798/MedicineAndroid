@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class GraphPresenter extends BasePresenter<GraphView, GraphModel> {
+public class GraphPresenter extends BasePresenter<GraphView, GraphModel> {
 
 
     public GraphPresenter() {
