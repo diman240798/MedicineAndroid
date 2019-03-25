@@ -33,10 +33,10 @@ import java.util.Objects;
 public class MainActivity extends BaseActivity<MainPresenter> implements MainView {
 
 
-    private Fragment currentFragment;
-    private TestFragment testFragment;
-    private TasksFragment tasksFragment;
-    private GraphFragment graphFragment;
+    public Fragment currentFragment;
+    public TestFragment testFragment;
+    public TasksFragment taskFragment;
+    public GraphFragment graphFragment;
 
 
     @Override
@@ -57,7 +57,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         int fragmentNumber = presenter.currentFragmentNumber;
         Fragment fragment = null;
         if (fragmentNumber == 1) {
-            fragment = tasksFragment;
+            fragment = taskFragment;
         } else if (fragmentNumber == 2) {
             fragment = new AddTaskFragment(); // FIXME: FIXXXXXXX
         } else if (fragmentNumber == 3) {
@@ -107,8 +107,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                 Fragment fragment = null;
                 int fragmentNumber = 1;
                 if (tag == 1) {
-                    fragment = tasksFragment;
-                    fragmentNumber = tasksFragment.getPresenterId();
+                    fragment = taskFragment;
+                    fragmentNumber = taskFragment.getPresenterId();
                 } else if (tag == 2) {
                     fragment = graphFragment;
                     fragmentNumber = graphFragment.getPresenterId();
@@ -171,16 +171,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             presenter = new MainPresenter(new TaskPresenter(), new GraphPresenter(), new AddTaskPresenter(), new TestPresenter());
         }
 
-        tasksFragment = new TasksFragment();
+        taskFragment = new TasksFragment();
         graphFragment = new GraphFragment();
         testFragment = new TestFragment();
 
-        currentFragment = tasksFragment;
+        currentFragment = taskFragment;
 
         presenter.attachView(this);
-        presenter.getTaskPresenter().attachView(tasksFragment);
+        presenter.getTaskPresenter().attachView(taskFragment);
         presenter.getGraphPresenter().attachView(graphFragment);
-        presenter.getTaskPresenter().setOnStartDragListener(tasksFragment);
+        presenter.getTaskPresenter().setOnStartDragListener(taskFragment);
         presenter.getTestPresenter().attachView(testFragment);
 
     }
@@ -201,11 +201,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     }
 
     public void onAddNewTask(Item item) {
-        tasksFragment.onNewTaskAdded(item);
+        taskFragment.onNewTaskAdded(item);
     }
 
     public void setItemsFragment() {
-        setFragment(tasksFragment, tasksFragment.getPresenterId());
+        setFragment(taskFragment, taskFragment.getPresenterId());
     }
 
     @Override
@@ -216,17 +216,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             super.onBackPressed();
     }
 
-    public BasePresenter getPresenter(BaseView view) {
+    public <T extends BasePresenter> T getPresenter(BaseView view, Class<T> type) {
         int id = view.getPresenterId();
-        BasePresenter basePresenter = null;
+        T basePresenter = null;
         if (id == 1) {
-            basePresenter = presenter.getTaskPresenter();
+            basePresenter = type.cast(presenter.getTaskPresenter());
         } else if (id == 2) {
-            basePresenter = presenter.getAddAaskPresenter();
+            basePresenter = type.cast(presenter.getAddAaskPresenter());
         } else if (id == 3) {
-            basePresenter = presenter.getGraphPresenter();
+            basePresenter = type.cast(presenter.getGraphPresenter());
         } else if (id == 4) {
-            basePresenter = presenter.getTestPresenter();
+            basePresenter = type.cast(presenter.getTestPresenter());
         } else {
             throw new RuntimeException("Not Implemented");
         }

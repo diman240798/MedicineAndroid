@@ -57,7 +57,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
 
         Context context = getContext();
         MainActivity activity = (MainActivity) getActivity();
-        TaskPresenter presenter = (TaskPresenter) activity.getPresenter(this);
+        TaskPresenter presenter = activity.getPresenter(this, TaskPresenter.class);
 
         // Date
         TextView tvDate=(TextView)view.findViewById(R.id.tvDate);
@@ -116,7 +116,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         Context context = getContext();
         MainActivity activity = (MainActivity) getActivity();
 
-        TaskPresenter presenter = (TaskPresenter) activity.getPresenter(this);
+        TaskPresenter presenter = activity.getPresenter(this, TaskPresenter.class);
         int size = presenter.itemList.size();
         tvNumber.setText(String.valueOf(size));
 

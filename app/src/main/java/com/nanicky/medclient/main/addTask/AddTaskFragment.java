@@ -1,6 +1,7 @@
 package com.nanicky.medclient.main.addTask;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
@@ -22,6 +23,12 @@ public class AddTaskFragment extends Fragment implements AddTaskView {
     private SeekBar seekBar;
     private FloatingActionButton fab;
 
+    // Save
+    String FLD_LEVEL = "level";
+    String FLD_DESC = "desc";
+    String FLD_NAME = "name";
+    private static Bundle savedBundle;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,8 +41,9 @@ public class AddTaskFragment extends Fragment implements AddTaskView {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle bundle) {
+        super.onViewCreated(view, bundle);
+
         txtName = (TextInputEditText) view.findViewById(R.id.textName);
         txtDescription = (TextInputEditText) view.findViewById(R.id.textDescription);
         txtProc = (TextView) view.findViewById(R.id.textProcent);
@@ -59,12 +67,13 @@ public class AddTaskFragment extends Fragment implements AddTaskView {
             }
         });
 
+        MainActivity activity = (MainActivity) getActivity();
+
         fab.setOnClickListener(v -> {
             String name = txtName.getText().toString();
             String description = txtName.getText().toString();
             int attentionLevel = seekBar.getProgress();
             Item item = new Item(name, description, attentionLevel);
-            MainActivity activity = (MainActivity) getActivity();
             assert activity != null;
             activity.setItemsFragment();
             v.postDelayed(() -> {
@@ -73,35 +82,37 @@ public class AddTaskFragment extends Fragment implements AddTaskView {
 
         });
 
-        MainActivity activity = (MainActivity) getActivity();
-        assert activity != null;
-        Item restoreItem = ((AddTaskPresenter)activity.getPresenter(this)).restoreItem;
-
-        if (restoreItem != null) {
-            ((AddTaskPresenter)activity.getPresenter(this)).restoreItem = null;
-            String name = restoreItem.getName();
-            String description = restoreItem.getDescription();
-            int progress = restoreItem.getProgress();
+        if (savedBundle != null) {
+            String name = savedBundle.getString(FLD_NAME);
+            String description = savedBundle.getString(FLD_DESC);
+            int attentionLevel = savedBundle.getInt(FLD_LEVEL);
+            savedBundle = null;
 
             txtName.setText(name);
             txtDescription.setText(description);
-            seekBar.setProgress(progress);
+            seekBar.setProgress(attentionLevel);
+        } else if (bundle != null) {
+            savedBundle = bundle;
         }
     }
+    ///////////// RESTORE STATE
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle bundle) {
+        super.onSaveInstanceState(bundle);
 
+        String name = txtName.getText().toString();
+        String description = txtDescription.getText().toString();
+        int attentionLevel = seekBar.getProgress();
+
+        bundle.putInt(FLD_LEVEL, attentionLevel);
+        bundle.putString(FLD_DESC, description);
+        bundle.putString(FLD_NAME, name);
+    }
+    ///////////// RESTORE STATE
 
     @Override
     public void onStop() {
         super.onStop();
-
-        String name = txtName.getText().toString();
-        String description = txtName.getText().toString();
-        int attentionLevel = seekBar.getProgress();
-        Item restoreItem = new Item(name, description, attentionLevel);
-
-        MainActivity activity = (MainActivity) getActivity();
-        assert activity != null;
-        ((AddTaskPresenter)activity.getPresenter(this)).restoreItem = restoreItem;
     }
 
     @Override

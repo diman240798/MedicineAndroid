@@ -5,12 +5,12 @@ public class Item {
 
     private String name;
     private String description;
-    private int progress;
+    private int attentionLevel;
 
-    public Item(String name, String description, int progress) {
+    public Item(String name, String description, int attentionLevel) {
         this.name = name;
         this.description = description;
-        this.progress = progress;
+        this.attentionLevel = attentionLevel;
     }
 
     public String getDescription() {
@@ -21,12 +21,12 @@ public class Item {
         this.description = description;
     }
 
-    public int getProgress() {
-        return progress;
+    public int getAttentionLevel() {
+        return attentionLevel;
     }
 
-    public void setProgress(int progress) {
-        this.progress = progress;
+    public void setAttentionLevel(int attentionLevel) {
+        this.attentionLevel = attentionLevel;
     }
 
     public String getName() {
