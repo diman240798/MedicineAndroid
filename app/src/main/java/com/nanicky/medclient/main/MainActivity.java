@@ -59,8 +59,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         if (fragmentNumber == 1) {
             fragment = tasksFragment;
         } else if (fragmentNumber == 2) {
-            fragment = graphFragment;
+            fragment = new AddTaskFragment(); // FIXME: FIXXXXXXX
         } else if (fragmentNumber == 3) {
+            fragment = graphFragment;
+        } else if (fragmentNumber == 4) {
             TestFragment testFragment = new TestFragment();
             fragment = testFragment;
         } else {
@@ -217,7 +219,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     public BasePresenter getPresenter(BaseView view) {
         int id = view.getPresenterId();
         BasePresenter basePresenter = null;
-        if ( id == 1) {
+        if (id == 1) {
             basePresenter = presenter.getTaskPresenter();
         } else if (id == 2) {
             basePresenter = presenter.getAddAaskPresenter();
