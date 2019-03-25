@@ -28,3 +28,6 @@
 /.idea/libraries/Gradle__com_jjoe64_graphview_4_2_2_aar.xml
 /app/app.iml
 /local.properties
+.gradle
+.idea
+gradle
