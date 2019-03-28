@@ -191,7 +191,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         presenter.attachView(this);
         presenter.getTaskPresenter().attachView(taskFragment);
         presenter.getGraphPresenter().attachView(graphFragment);
-        presenter.getTaskPresenter().setOnStartDragListener(taskFragment);
         presenter.getTestPresenter().attachView(testFragment);
 
     }

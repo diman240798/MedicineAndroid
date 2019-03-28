@@ -86,7 +86,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         rv.setLayoutManager(llm);
 
         // recycler adapter
-        itemAdapter = presenter.getItemAdapter();
+        itemAdapter = itemAdapter = new ItemAdapter(presenter, this);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(itemAdapter,context);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(rv);
@@ -155,6 +155,22 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         };
         Handler handlerUndo=new Handler();handlerUndo.postDelayed(runnableUndo,2500);
 
+    }
+
+    @Override
+    public void notifyItemDissmissed(int position) {
+        itemAdapter.notifyItemRemoved(position);
+        itemAdapter.notifyItemRangeChanged(0, itemAdapter.getItemCount());
+    }
+
+    @Override
+    public void notifyItemInserted(int position) {
+        itemAdapter.notifyItemInserted(position);
+    }
+
+    @Override
+    public void notifyItemMoved(int fromPosition, int toPosition) {
+        itemAdapter.notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override

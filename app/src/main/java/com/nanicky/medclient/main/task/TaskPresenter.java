@@ -11,13 +11,11 @@ import java.util.List;
 
 public class TaskPresenter extends BasePresenter<TaskView, TaskModel> {
 
-    public final ItemAdapter itemAdapter;
     public List<Item> itemList = new ArrayList<>();
 
 
     public TaskPresenter() {
         this.model = new TaskModel(this);
-        itemAdapter = new ItemAdapter(this);
         loadItems();
     }
 
@@ -36,31 +34,22 @@ public class TaskPresenter extends BasePresenter<TaskView, TaskModel> {
 
     }
 
-    public ItemAdapter getItemAdapter() {
-        return itemAdapter;
-    }
-
     public int getItemsSize() {
         return itemList.size();
     }
 
-    public void setOnStartDragListener(OnStartDragListener dragListener) {
-        itemAdapter.setOnItemDragListener(dragListener);
-    }
+
 
     public void onItemDissmissed(int position) {
         final Item item = itemList.get(position);
-
-        itemAdapter.notifyItemRemoved(position);
         itemList.remove(position);
-        itemAdapter.notifyItemRangeChanged(0, itemList.size());
-
+        view.notifyItemDissmissed(position);
         view.onItemDissmissed(position, item);
     }
 
     public void onAddItem(Item item, int position) {
         itemList.add(position, item);
-        itemAdapter.notifyItemInserted(position);
+        view.notifyItemInserted(position);
         view.setItemsCount(itemList.size());
     }
 
@@ -74,8 +63,6 @@ public class TaskPresenter extends BasePresenter<TaskView, TaskModel> {
                 Collections.swap(itemList, i, i - 1);
             }
         }
-
-        itemAdapter.notifyItemMoved(fromPosition, toPosition);
-
+        view.notifyItemMoved(fromPosition, toPosition);
     }
 }

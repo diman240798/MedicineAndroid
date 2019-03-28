@@ -14,13 +14,14 @@ import com.nanicky.medclient.main.task.TaskPresenter;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements ItemTouchHelperAdapter {
 
-    TaskPresenter taskPresenter;
+    private final TaskPresenter taskPresenter;
 
-    private OnStartDragListener dragStartListener;
+    private final OnStartDragListener dragStartListener;
 
-    public ItemAdapter(TaskPresenter taskPresenter) {
+    public ItemAdapter(TaskPresenter taskPresenter, OnStartDragListener dragStartListener) {
         this.taskPresenter = taskPresenter;
 
+        this.dragStartListener = dragStartListener;
     }
 
     @Override
@@ -65,7 +66,4 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
         return new ItemViewHolder(itemView);
     }
 
-    public void setOnItemDragListener(OnStartDragListener dragStartListener) {
-        this.dragStartListener = dragStartListener;
-    }
 }
