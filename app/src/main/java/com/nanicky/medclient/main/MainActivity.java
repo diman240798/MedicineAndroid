@@ -210,7 +210,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         setFragment(fragment, presenterId);
     }
 
-    public void onAddNewTask(Item item) {
+    public void onAddNewTask(Task item) {
         taskFragment.onNewTaskAdded(item);
     }
 

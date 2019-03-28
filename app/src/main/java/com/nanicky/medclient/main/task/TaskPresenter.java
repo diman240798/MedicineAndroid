@@ -1,7 +1,7 @@
 package com.nanicky.medclient.main.task;
 
 import com.nanicky.medclient.base.BasePresenter;
-import com.nanicky.medclient.main.Item;
+import com.nanicky.medclient.main.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TaskPresenter extends BasePresenter<TaskView, TaskModel> {
 
-    public List<Item> itemList = new ArrayList<>();
+    public List<Task> itemList = new ArrayList<>();
 
 
     public TaskPresenter() {
@@ -22,7 +22,7 @@ public class TaskPresenter extends BasePresenter<TaskView, TaskModel> {
         //Initial items
         for(int i=100;i>0;i--)
         {
-            Item item = new Item("Feed Cat " + i, "desc", 20);
+            Task item = new Task("Feed Cat " + i, "desc", 20);
             itemList.add(item);
         }
     }
@@ -39,13 +39,13 @@ public class TaskPresenter extends BasePresenter<TaskView, TaskModel> {
 
 
     public void onItemDissmissed(int position) {
-        final Item item = itemList.get(position);
+        final Task item = itemList.get(position);
         itemList.remove(position);
         view.notifyItemDissmissed(position);
         view.onItemDissmissed(position, item);
     }
 
-    public void onAddItem(Item item, int position) {
+    public void onAddItem(Task item, int position) {
         itemList.add(position, item);
         view.notifyItemInserted(position);
         view.setItemsCount(itemList.size());

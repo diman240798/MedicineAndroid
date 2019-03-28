@@ -1,11 +1,11 @@
 package com.nanicky.medclient.main.task;
 
 import com.nanicky.medclient.base.BaseView;
-import com.nanicky.medclient.main.Item;
+import com.nanicky.medclient.main.Task;
 
 public interface TaskView extends BaseView {
     void setItemsCount(int count);
-    void onItemDissmissed(int position, Item item);
+    void onItemDissmissed(int position, Task item);
 
     void notifyItemDissmissed(int position);
 

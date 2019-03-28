@@ -34,7 +34,7 @@ public class TaskAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
         taskPresenter.changeItems(fromPosition, toPosition);
     }
 
-    public void addItem(int position, Item item) {
+    public void addItem(int position, Task item) {
         taskPresenter.onAddItem(item, position);
     }
 
@@ -46,7 +46,7 @@ public class TaskAdapter extends RecyclerView.Adapter<ItemViewHolder> implements
     @Override
     public void onBindViewHolder(final ItemViewHolder itemViewHolder, final int position) {
 
-        final Item item = taskPresenter.itemList.get(position);
+        final Task item = taskPresenter.itemList.get(position);
         itemViewHolder.tvItemName.setText(item.getName());
         itemViewHolder.relativeReorder.setOnTouchListener(new View.OnTouchListener() {
             @Override

@@ -13,7 +13,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.nanicky.medclient.R;
-import com.nanicky.medclient.main.Item;
+import com.nanicky.medclient.main.Task;
 import com.nanicky.medclient.main.MainActivity;
 
 public class AddTaskFragment extends Fragment implements AddTaskView {
@@ -73,7 +73,7 @@ public class AddTaskFragment extends Fragment implements AddTaskView {
             String name = txtName.getText().toString();
             String description = txtName.getText().toString();
             int attentionLevel = seekBar.getProgress();
-            Item item = new Item(name, description, attentionLevel);
+            Task item = new Task(name, description, attentionLevel);
             assert activity != null;
             activity.setItemsFragment();
             v.postDelayed(() -> {

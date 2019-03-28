@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.nanicky.medclient.R;
 import com.nanicky.medclient.helper.OnStartDragListener;
 import com.nanicky.medclient.helper.SimpleItemTouchHelperCallback;
-import com.nanicky.medclient.main.Item;
+import com.nanicky.medclient.main.Task;
 import com.nanicky.medclient.main.TaskAdapter;
 import com.nanicky.medclient.main.MainActivity;
 import com.nanicky.medclient.main.Typefaces;
@@ -103,7 +103,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         });
     }
 
-    public void onNewTaskAdded(Item item) {
+    public void onNewTaskAdded(Task item) {
         llm.scrollToPositionWithOffset(0, dpToPx(56));
         taskAdapter.addItem(0, item);
     }
@@ -114,7 +114,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
     }
 
     @Override
-    public void onItemDissmissed(int position, Item item) {
+    public void onItemDissmissed(int position, Task item) {
         Context context = getContext();
         MainActivity activity = (MainActivity) getActivity();
 

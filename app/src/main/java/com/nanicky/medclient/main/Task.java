@@ -1,13 +1,13 @@
 package com.nanicky.medclient.main;
 
 
-public class Item {
+public class Task {
 
     private String name;
     private String description;
     private int attentionLevel;
 
-    public Item(String name, String description, int attentionLevel) {
+    public Task(String name, String description, int attentionLevel) {
         this.name = name;
         this.description = description;
         this.attentionLevel = attentionLevel;
