@@ -12,13 +12,13 @@ import com.nanicky.medclient.helper.ItemTouchHelperAdapter;
 import com.nanicky.medclient.helper.OnStartDragListener;
 import com.nanicky.medclient.main.task.TaskPresenter;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> implements ItemTouchHelperAdapter {
+public class TaskAdapter extends RecyclerView.Adapter<ItemViewHolder> implements ItemTouchHelperAdapter {
 
     private final TaskPresenter taskPresenter;
 
     private final OnStartDragListener dragStartListener;
 
-    public ItemAdapter(TaskPresenter taskPresenter, OnStartDragListener dragStartListener) {
+    public TaskAdapter(TaskPresenter taskPresenter, OnStartDragListener dragStartListener) {
         this.taskPresenter = taskPresenter;
 
         this.dragStartListener = dragStartListener;

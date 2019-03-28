@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,7 +21,7 @@ import com.nanicky.medclient.R;
 import com.nanicky.medclient.helper.OnStartDragListener;
 import com.nanicky.medclient.helper.SimpleItemTouchHelperCallback;
 import com.nanicky.medclient.main.Item;
-import com.nanicky.medclient.main.ItemAdapter;
+import com.nanicky.medclient.main.TaskAdapter;
 import com.nanicky.medclient.main.MainActivity;
 import com.nanicky.medclient.main.Typefaces;
 
@@ -39,7 +38,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
     private ItemTouchHelper mItemTouchHelper;
     private TextView tvNumber;
     private RecyclerView rv;
-    private ItemAdapter itemAdapter;
+    private TaskAdapter taskAdapter;
     private LinearLayoutManager llm;
 
     @Nullable
@@ -86,11 +85,11 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         rv.setLayoutManager(llm);
 
         // recycler adapter
-        itemAdapter = itemAdapter = new ItemAdapter(presenter, this);
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(itemAdapter,context);
+        taskAdapter = taskAdapter = new TaskAdapter(presenter, this);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(taskAdapter,context);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(rv);
-        rv.setAdapter(itemAdapter);
+        rv.setAdapter(taskAdapter);
 
 
         // Fb
@@ -106,7 +105,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
 
     public void onNewTaskAdded(Item item) {
         llm.scrollToPositionWithOffset(0, dpToPx(56));
-        itemAdapter.addItem(0, item);
+        taskAdapter.addItem(0, item);
     }
 
     @Override
@@ -159,18 +158,18 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
 
     @Override
     public void notifyItemDissmissed(int position) {
-        itemAdapter.notifyItemRemoved(position);
-        itemAdapter.notifyItemRangeChanged(0, itemAdapter.getItemCount());
+        taskAdapter.notifyItemRemoved(position);
+        taskAdapter.notifyItemRangeChanged(0, taskAdapter.getItemCount());
     }
 
     @Override
     public void notifyItemInserted(int position) {
-        itemAdapter.notifyItemInserted(position);
+        taskAdapter.notifyItemInserted(position);
     }
 
     @Override
     public void notifyItemMoved(int fromPosition, int toPosition) {
-        itemAdapter.notifyItemMoved(fromPosition, toPosition);
+        taskAdapter.notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
