@@ -13,26 +13,23 @@ public class TaskPresenter extends BasePresenter<TaskView, TaskModel> {
 
     public final ItemAdapter itemAdapter;
     public List<Item> itemList = new ArrayList<>();
-    public int fragmentNumber = 1;
-    public Item restoreItem;
 
 
     public TaskPresenter() {
         this.model = new TaskModel(this);
         itemAdapter = new ItemAdapter(this);
-        //loadItems();
+        loadItems();
     }
 
 
-    /*private void loadItems() {
+    private void loadItems() {
         //Initial items
-        for(int i=10;i>0;i--)
+        for(int i=100;i>0;i--)
         {
-            Item item = new Item();
-            item.setName("item"+i);
+            Item item = new Item("Feed Cat " + i, "desc", 20);
             itemList.add(item);
         }
-    }*/
+    }
 
     @Override
     protected void restoreState() {

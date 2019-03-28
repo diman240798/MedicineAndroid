@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -33,9 +34,11 @@ import static com.nanicky.medclient.util.UtilUI.dpToPx;
 
 public class TasksFragment extends Fragment implements OnStartDragListener, TaskView {
 
+    private static int top, index = -1;
+
     private ItemTouchHelper mItemTouchHelper;
-    TextView tvNumber;
-    private RecyclerView recyclerView;
+    private TextView tvNumber;
+    private RecyclerView rv;
     private ItemAdapter itemAdapter;
     private LinearLayoutManager llm;
 
@@ -75,19 +78,19 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         tvDate.setText( dateformat.format(c.getTime()).toUpperCase());
 
         // recycler view
-        recyclerView = (RecyclerView) view.findViewById(R.id.cardList);
-        assert recyclerView != null;
-        recyclerView.setHasFixedSize(true);
+        rv = (RecyclerView) view.findViewById(R.id.cardList);
+        assert rv != null;
+        rv.setHasFixedSize(true);
         llm = new LinearLayoutManager(context);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(llm);
+        rv.setLayoutManager(llm);
 
         // recycler adapter
         itemAdapter = presenter.getItemAdapter();
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(itemAdapter,context);
         mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(recyclerView);
-        recyclerView.setAdapter(itemAdapter);
+        mItemTouchHelper.attachToRecyclerView(rv);
+        rv.setAdapter(itemAdapter);
 
 
         // Fb
@@ -162,5 +165,26 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
     @Override
     public int getPresenterId() {
         return 1;
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        //read current recyclerview position
+        index = llm.findFirstVisibleItemPosition();
+        View v = rv.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - rv.getPaddingTop());
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        //set recyclerview position
+        if(index != -1)
+        {
+            llm.scrollToPositionWithOffset( index, top);
+        }
     }
 }
