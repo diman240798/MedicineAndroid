@@ -57,8 +57,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         setTabs();
 
         int fragmentNumber = presenter.currentFragmentNumber;
+        if (fragmentNumber > 2)
+            fragmentNumber = 1; // FIXME crutch
+
         Objects.requireNonNull(tabLayout.getTabAt(fragmentNumber - 1)).select();
+
         Fragment fragment = null;
+        fragmentNumber = presenter.currentFragmentNumber;
 
         if (fragmentNumber == 1) {
             fragment = taskFragment;

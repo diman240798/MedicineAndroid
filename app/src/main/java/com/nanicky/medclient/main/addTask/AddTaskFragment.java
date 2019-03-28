@@ -95,6 +95,7 @@ public class AddTaskFragment extends Fragment implements AddTaskView {
             savedBundle = bundle;
         }
     }
+    
     ///////////// RESTORE STATE
     @Override
     public void onSaveInstanceState(@NonNull Bundle bundle) {
