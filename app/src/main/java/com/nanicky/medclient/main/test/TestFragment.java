@@ -22,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nanicky.medclient.ModelHelpers.TestGenerator;
 import com.nanicky.medclient.ModelHelpers.WordResult;
@@ -85,6 +86,20 @@ public class TestFragment extends Fragment implements TestView {
 
 
         text.setText(randomString);
+
+        text.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                Layout layout = ((TextView) v).getLayout();
+                int x = (int)event.getX();
+                int y = (int)event.getY();
+                if (layout!=null){
+                    int line = layout.getLineForVertical(y);
+                    int offset = layout.getOffsetForHorizontal(line, x);
+                    Toast.makeText(getContext(), String.valueOf(randomString.charAt(offset)), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
 
         text.setOnClickListener(v -> {
             if (counter == 0) {

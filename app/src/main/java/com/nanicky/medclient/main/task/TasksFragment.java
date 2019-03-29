@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -20,10 +21,11 @@ import android.widget.TextView;
 import com.nanicky.medclient.R;
 import com.nanicky.medclient.helper.OnStartDragListener;
 import com.nanicky.medclient.helper.SimpleItemTouchHelperCallback;
+import com.nanicky.medclient.main.MainActivity;
 import com.nanicky.medclient.main.Task;
 import com.nanicky.medclient.main.TaskAdapter;
-import com.nanicky.medclient.main.MainActivity;
 import com.nanicky.medclient.main.Typefaces;
+import com.nanicky.medclient.util.ScrollingFABBehavior;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -62,19 +64,19 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         TaskPresenter presenter = activity.getPresenter(this, TaskPresenter.class);
 
         // Date
-        TextView tvDate=(TextView)view.findViewById(R.id.tvDate);
-        TextView tvDay=(TextView)view.findViewById(R.id.tvDay);
-        tvNumber=(TextView)view.findViewById(R.id.tvNumber);
+        TextView tvDate = (TextView) view.findViewById(R.id.tvDate);
+        TextView tvDay = (TextView) view.findViewById(R.id.tvDay);
+        tvNumber = (TextView) view.findViewById(R.id.tvNumber);
         setItemsCount(presenter.itemList.size());
 
         // Date
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("MM.dd.yyyy", Locale.getDefault());
-        assert tvDate!=null;
-        assert  tvDay!=null;
+        assert tvDate != null;
+        assert tvDay != null;
         tvDate.setTypeface(Typefaces.getRobotoBlack(context));
         tvDay.setTypeface(Typefaces.getRobotoBlack(context));
-        tvDate.setText( dateformat.format(c.getTime()).toUpperCase());
+        tvDate.setText(dateformat.format(c.getTime()).toUpperCase());
 
         // recycler view
         rv = (RecyclerView) view.findViewById(R.id.cardList);
@@ -86,7 +88,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
 
         // recycler adapter
         taskAdapter = taskAdapter = new TaskAdapter(presenter, this);
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(taskAdapter,context);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(taskAdapter, context);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(rv);
         rv.setAdapter(taskAdapter);
@@ -94,7 +96,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
 
         // Fb
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        assert fab!=null;
+        assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,8 +124,8 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         int size = presenter.itemList.size();
         tvNumber.setText(String.valueOf(size));
 
-        final Snackbar snackbar =  Snackbar
-                .make(tvNumber,context.getResources().getString(R.string.item_deleted), Snackbar.LENGTH_LONG)
+        final Snackbar snackbar = Snackbar
+                .make(tvNumber, context.getResources().getString(R.string.item_deleted), Snackbar.LENGTH_LONG)
                 .setActionTextColor(ContextCompat.getColor(context, R.color.white))
                 .setAction(context.getResources().getString(R.string.item_undo), new View.OnClickListener() {
                     @Override
@@ -138,7 +140,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
         View snackBarView = snackbar.getView();
         snackBarView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent));
         TextView tvSnack = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
-        TextView tvSnackAction = (TextView) snackbar.getView().findViewById( android.support.design.R.id.snackbar_action );
+        TextView tvSnackAction = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_action);
         tvSnack.setTextColor(Color.WHITE);
         tvSnack.setTypeface(Typefaces.getRobotoMedium(context));
         tvSnackAction.setTypeface(Typefaces.getRobotoMedium(context));
@@ -152,7 +154,8 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
                 snackbar.dismiss();
             }
         };
-        Handler handlerUndo=new Handler();handlerUndo.postDelayed(runnableUndo,2500);
+        Handler handlerUndo = new Handler();
+        handlerUndo.postDelayed(runnableUndo, 2500);
 
     }
 
@@ -183,8 +186,7 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         //read current recyclerview position
         index = llm.findFirstVisibleItemPosition();
@@ -193,13 +195,11 @@ public class TasksFragment extends Fragment implements OnStartDragListener, Task
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         //set recyclerview position
-        if(index != -1)
-        {
-            llm.scrollToPositionWithOffset( index, top);
+        if (index != -1) {
+            llm.scrollToPositionWithOffset(index, top);
         }
     }
 }
